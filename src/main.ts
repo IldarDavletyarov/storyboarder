@@ -8,7 +8,7 @@ import store from './store'
 Vue.config.productionTip = false
 
 const eventHub = new Vue()
-Vue.prototype['$eventHub'] = eventHub // bus event, need for alert message
+Vue.prototype['$eventHub'] = eventHub
 
 new Vue({
   router,

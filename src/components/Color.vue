@@ -11,8 +11,8 @@ export default class Color extends Vue {
   colors = [1, 1, 1];
 
   get style() {
-    const background = this.toHex(this.normalize(this.colors));
-    const color = this.toHex(this.normalize(this.colors).map(c => 256 -c));
+    const background = this.toHex(this.normalize());
+    const color = this.toHex(this.normalize().map(c => 256 -c));
     this.$nextTick(() => {
       const root = document.documentElement.style;
       root.setProperty('--background', background);
@@ -36,7 +36,7 @@ export default class Color extends Vue {
     return [r, g, b].map(c => parseInt(c,16))
   }
 
-  normalize(colors: number[]): number[] {
+  normalize(): number[] {
       return this.colors.map(c => Math.abs(c - 256));
   }
 

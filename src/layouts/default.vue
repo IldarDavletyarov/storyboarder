@@ -1,13 +1,16 @@
 <template lang="pug">
 .layout
-    alert
-    header
-      color
-        .title Storyboarder Prototype
-    .content-wrapper
-      transition(name="fade" mode="out-in")
-        .content(:key="$route.name")
-          router-view.page
+  alert
+  header
+    color
+      .link-wrap(@click="onBackClick")
+        .link(:class="{ 'home': $route.name === 'home' }") {{ ($route.name === 'home' ? 'Storyboarder Prototype' : `/${$route.name}`) }}
+        icon(v-if="$route.name !== 'home'")
+  .content-wrapper
+    transition(name="fade" mode="out-in")
+      .content(:key="$route.name")
+        router-view.page
+  a.copyright(href="https://ildar.dev/" target="_blank") ©ildar.dev
 </template>
 
 <script>
@@ -16,10 +19,13 @@ import { Component, Vue } from 'vue-property-decorator';
 import Color from '@/components/Color.vue';
 import Alert from '@/components/Alert.vue';
 
+import icon from 'vue-material-design-icons/ArrowLeft.vue';
+
 @Component({
   components: {
     Color,
     Alert,
+    icon,
   }
 })
 export default class Layout extends Vue {
@@ -38,54 +44,6 @@ export default class Layout extends Vue {
 .fade-leave-to
   opacity 0
 
-.name-enter-active
-.name-leave-active
-  transition all .1s ease-in
-  position relative
-  opacity 1
-  top 0
-
-.name-enter-active
-  transition all .1s ease-out
-
-.name-enter
-  top -10px
-  opacity 0
-.name-leave-to
-  top 10px
-  opacity 0
-
-.wrap
-  transition letter-spacing .3s
-  max-height 40px
-  overflow hidden
-  @media screen and (max-width: 640px) 
-    .ildar
-    .dev
-      font-size 0
-    .ildar:first-letter
-    .dev:first-letter
-      font-size 40px
-
-.change-language
-  position absolute
-  right 0
-  top 50%
-  transform translateY(-50%)
-  font-size 31px
-  line-height 26px
-  width min-content
-  text-align right
-  .mobile
-    display none
-  @media screen and (max-width: 640px)
-    font-size 25px
-    .desktop
-      display none
-    .mobile
-      display block
-
-
 html
 body
   max-height 100vh
@@ -93,6 +51,21 @@ body
 .layout
   min-height 100vh
   max-height 100vh
+  .copyright
+    position fixed
+    right 0
+    bottom 0
+    padding 4px
+    font-size 10px
+    font-family "Courier New"
+    text-align right
+    width max-content
+    color #000
+    transition color .3s ease
+    text-decoration none
+    user-select none
+    &:hover
+      color #fff
   header
     position fixed
     width 100vw
@@ -103,7 +76,7 @@ body
       .color
         .text
           letter-spacing 1px
-        .link
+        .link:not(.home)
           opacity 0
         svg
           opacity 1    

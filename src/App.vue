@@ -11,13 +11,6 @@ import Layout from './layouts/default.vue';
   components: {
     Layout
   },
-  watch: {
-    '$store.state.language': {
-      handler(val) {
-        this.$i18n.locale = val;
-      }
-    },
-  },
 })
 export default class App extends Vue {
 

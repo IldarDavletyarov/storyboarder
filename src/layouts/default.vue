@@ -1,26 +1,9 @@
 <template lang="pug">
 .layout
+    alert
     header
       color
-        .text(@click="onNameClick")
-          .wrap
-            transition(name="name" mode="out-in")
-              .ildar(:key="ildars[ildarIndex]") {{ildars[ildarIndex]}}
-          .wrap
-            transition(name="name" mode="out-in")
-              .dot(:key="dots[dotIndex]") {{dots[dotIndex]}}
-          .wrap
-            transition(name="name" mode="out-in")
-              .dev(:key="devs[devIndex]") {{devs[devIndex]}}
-        .link-wrap(@click="onBackClick")
-          .link {{ ($route.name === 'home' ? '' : `/${$route.name}`) }}
-          svg(v-if="$route.name !== 'home'" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd")
-            path( d="M2.117 12l7.527 6.235-.644.765-9-7.521 9-7.479.645.764-7.529 6.236h21.884v1h-21.883z")
-        .wrap
-          transition(name="name" mode="out-in")
-            .change-language(@click="changeLanguage" :key="$t('changeLanguage.desktop')")
-              span.desktop {{ $t('changeLanguage.desktop') }}
-              span.mobile {{ $t('changeLanguage.mobile') }}
+        .title Storyboarder Prototype
     .content-wrapper
       transition(name="fade" mode="out-in")
         .content(:key="$route.name")
@@ -31,54 +14,15 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 import Color from '@/components/Color.vue';
-
-const ildars = ['ildar', 'Ildar', 'Ильдар', 'Илдар', 'ильдар', 'илдар', 'илдәр', 'Илдәр', 'ildәр', 'ildәr'];
-const devs = ['dev', 'Dev', 'Dav', 'dav', 'Dәv', 'dәv', 'дав', 'Дав', 'Дев','дев', 'Дәв', 'дәв', 'div'];
-const dots = ['.', ' ', ':', '-', '/', '', '@', '\\', '~', '*', '#', '_', ',', '^', '|'];
+import Alert from '@/components/Alert.vue';
 
 @Component({
   components: {
     Color,
+    Alert,
   }
 })
 export default class Layout extends Vue {
-  ildars = ildars;
-  devs = devs;
-  dots = dots;
-  ildarIndex = 0;
-  devIndex = 0;
-  dotIndex = 0;
-  intervalId = null
-  changeIndexes() {
-    switch (Math.ceil(Math.random() * 3)) {
-      case 1:
-        this.ildarIndex = Math.floor(Math.random() * this.ildars.length);
-        break;
-      case 2:
-        this.devIndex = Math.floor(Math.random() * this.devs.length);
-        break;
-      case 3:
-        this.dotIndex = Math.floor(Math.random() * this.dots.length);
-        break;
-    }
-  }
-
-  onNameClick() {
-    this.changeIndexes();
-  }
-
-  created() {
-    this.intervalId = setInterval(() => { this.changeIndexes() }, 5000);
-  }
-
-  beforeDestroy() {
-    clearInterval(this.intervalId);
-  }
-
-  changeLanguage() {
-    this.$store.dispatch('changeLanguage', this.$store.state.language === 'en' ? 'ru' : 'en');
-  }
-
   onBackClick() {
     this.$router.push({ name: 'home' });
   }
@@ -152,7 +96,7 @@ body
   header
     position fixed
     width 100vw
-    z-index 1000
+    z-index 10
     top 0
     left 0
     &:hover
